@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+{% block stylesheet %}
+<link rel="stylesheet" href="{{asset('assets/css/bootstrap.min.css')}}">
+{% endblock %}
+{% block title %}Actualités - Commerce Malagasy{% endblock %}
+
+{% block content %}
+    <h1>Bienvenue sur l'actualité du site</h1>
+{# Affichage des articles #}
+    <div class="row">
+        <div class="col-md-8">
+            <div class="row">
+                {% for article in articles %}
+                    <div class="card m-2" style="width: 18rem;">
+                        <p class="date mt-3"> Ecrit le {{ article.createdAt | date("m/d/Y")  }} à {{ article.createdAt | date("H:i")  }} par {{ article.user }} </p>
+                        <img class="card-img-top image" src="/uploads/articles/{{ article.image }}" alt="{{ article.title }}" >
+                        <div class="card-body">
+                            <h5 class="card-title titre"> {{ article.title }}</h5>
+                            {# <p class="card-text">{{ article.content }}</p> #}
+                            <a href=" {{ path ('show',{'id':article.id}) }}" class="btn btn-info bouton">En savoir plus</a>
+                        </div>
+                    </div>
+                {% endfor %}   
+            </div>
+        </div>
+        <div class="col-md-4">
+            <a class="text-decoration-none" href="{{ path ('blog') }}"> 
+                <h2>Categories</h2>
+            </a>
+                <ul class="list-group categoryDetails">
+            {% for categorie in categories %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center"> 
+                        <a class="text-decoration-none titreCategorie" href="{{ path('categoryDetails', {'id':categorie.id}) }}"> 
+                            {{ categorie.title }} 
+                        </a>
+
+                        <a class="text-decoration-none" href="{{ path('categoryDetails', {'id':categorie.id}) }}">
+                            <img class="imageCategorie" src="/uploads/categories/{{ categorie.image }}" alt="{{ categorie.title }}" >
+                        </a>
+                        
+                        <a class="text-decoration-none" href="{{ path('categoryDetails', {'id':categorie.id}) }}">
+                            <span class="badge bg-info rounded-pill"> {{ categorie.articles | length }} 
+                                {% if categorie.articles | length <= 1 %}
+                                    article 
+                                        {% else %}                   
+                                    articles
+                                {% endif %}                 
+                            </span>
+                        </a> 
+                    </li>
+            {% endfor %}
+                </ul>
+        </div>
+            
+    </div>
+
+
+{% endblock %}

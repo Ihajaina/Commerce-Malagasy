@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+{% block stylesheet %}
+<link rel="stylesheet" href="{{asset('assets/css/bootstrap.min.css')}}">
+{% endblock %}
+{% block title %}{{ product.name }} - Commerce Malagasy{% endblock %}
+
+{% block content %}
+
+    <div class="row">
+        <div class="col-md-5">
+            <img class="image-product" src="/uploads/products/{{ product.illustration }}" alt="{{ product.name }}">
+        </div>
+        <div class="col-md-7 my-auto">
+            <h3>{{ product.name }}</h3>
+            <p>{{ product.subtitle }}</p>
+            <span class="product-page-price">{{ (product.price / 100)|number_format(2, ',', '.') }} Ar</span>
+            <hr>
+            <p>
+                {{ product.description }}
+            </p>
+            <a href="{{ path('add_to_cart', { 'id' : product.id }) }}" class="btn btn-primary">Ajouter au panier</a>
+            <a href="{{ path('comment', { 'id' : product.id }) }}" class="btn btn-success">Ajouter un commentaire</a>
+        </div>
+    </div>
+    <hr>
+
+    {% for comment in comments %}
+        {% if comment.status == true %}
+            <strong>Rédigé par :</strong> {{ comment.user.firstname }}<br/>
+            <strong>Note :</strong> 
+            <div class="stars">
+                {% set total = comment.rating %}
+                {% for i in 1 .. total %}
+                <i class="las la-star"></i>
+                {% endfor %}
+            </div>
+            <strong>Commentaire :</strong> {{ comment.comment }}
+            <hr>
+        {% endif %}
+    {% endfor %}
+    <h3>Nos meilleures ventes</h3>
+        <p>Découvrez les articles les plus vendus.</p>
+        <div class="row">
+            {% for product in products %}
+                <div class="col-md-3">
+                    {% include 'product/single_product.html.twig' %}
+                </div>
+            {% endfor %}
+        </div><!-- /.row -->
+
+
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+{% block title %}Créer un commentaire - Commerce Malagasy{% endblock %}
+
+{% block content %}
+
+<h1>Créer un commentaire</h1>
+
+    {{ form_start(form, {'method': 'post'}) }}
+
+        <div class="stars">
+            <i class="lar la-star" data-value="1"></i><i class="lar la-star" data-value="2"></i><i class="lar la-star" data-value="3"></i><i class="lar la-star" data-value="4"></i><i class="lar la-star" data-value="5"></i>
+        </div>
+        <div class="row">
+
+        <div class="col-md-12">{{ form_row(form.comment) }}</div> 
+    </div>
+    
+     {{ form_end(form) }}
+
+    {% block javascripts %}
+        <script src={{ asset('assets/js/script.js') }}></script>
+    {% endblock %}
+{% endblock %}
